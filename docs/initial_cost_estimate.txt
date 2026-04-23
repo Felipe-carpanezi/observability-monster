@@ -1,46 +1,63 @@
-[1mProject:[22m main
-
-[1mErrors:[22m
-  1 error occurred:
-	* error fetching file:// module file:///home/felipe/observability-monster/modules/vpc from remote:
-    stat /home/felipe/observability-monster/modules/vpc:
-      no such file or directory
-
-
-
-──────────────────────────────────
-[1mProject:[22m Felipe-carpanezi/observability-monster/terraform/live/dev/eks
+[1mProject:[22m eks
 [1mModule path:[22m eks
 
-[1mErrors:[22m
-  Error processing module at '/home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl'. How this module was found:
-    dependency of module at '/home/felipe/observability-monster/terraform/live/dev/eks'. Underlying error:
-      Error reading file at path /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
-        open /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
-          no such file or directory
+ [4mName[24m                                                                                            [4mMonthly Qty[24m  [4mUnit[24m                    [4mMonthly Cost[24m   
+                                                                                                                                                     
+ [1mmodule.eks.aws_eks_cluster.this[0][22m                                                                                                                  
+ [2m└─[22m EKS cluster                                                                                          730  hours                         $73.00   
+                                                                                                                                                     
+ [1mmodule.eks.module.eks_managed_node_group["monster_nodes"].aws_eks_node_group.this[0][22m                                                                
+ [2m└─[22m module.eks.module.eks_managed_node_group["monster_nodes"].aws_launch_template.this[0]                                                            
+ [2m   ├─[22m Instance usage (Linux/UNIX, on-demand, t3.medium)                                               1,460  hours                         $60.74   
+ [2m   └─[22m EC2 detailed monitoring                                                                            14  metrics                        $4.20   
+                                                                                                                                                     
+ [1mmodule.eks.module.kms.aws_kms_key.this[0][22m                                                                                                           
+ [2m├─[22m Customer master key                                                                                    1  months                         $1.00   
+ [2m├─[22m Requests                                                                               Monthly cost depends on usage: $0.03 per 10k requests     
+ [2m├─[22m ECC GenerateDataKeyPair requests                                                       Monthly cost depends on usage: $0.10 per 10k requests     
+ [2m└─[22m RSA GenerateDataKeyPair requests                                                       Monthly cost depends on usage: $0.10 per 10k requests     
+                                                                                                                                                     
+ [1mmodule.eks.aws_cloudwatch_log_group.this[0][22m                                                                                                         
+ [2m├─[22m Data ingested                                                                          Monthly cost depends on usage: $0.50 per GB               
+ [2m├─[22m Archival Storage                                                                       Monthly cost depends on usage: $0.03 per GB               
+ [2m└─[22m Insights queries data scanned                                                          Monthly cost depends on usage: $0.005 per GB              
+                                                                                                                                                     
+ [1mProject total[22m                                                                                                                             $138.94   
 
 ──────────────────────────────────
-[1mProject:[22m Felipe-carpanezi/observability-monster/terraform/live/dev/rds
+[1mProject:[22m rds
 [1mModule path:[22m rds
 
-[1mErrors:[22m
-  Error processing module at '/home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl'. How this module was found:
-    dependency of module at '/home/felipe/observability-monster/terraform/live/dev/rds'. Underlying error:
-      Error reading file at path /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
-        open /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
-          no such file or directory
+ [4mName[24m                                                      [4mMonthly Qty[24m  [4mUnit[24m   [4mMonthly Cost[24m   
+                                                                                              
+ [1maws_db_instance.postgres[22m                                                                     
+ [2m├─[22m Database instance (on-demand, Single-AZ, db.t3.micro)          730  hours        $13.14   
+ [2m└─[22m Storage (general purpose SSD, gp2)                              20  GB            $2.30   
+                                                                                              
+ [1mProject total[22m                                                                       $15.44   
 
-[1m OVERALL TOTAL[22m       $0.00 
+──────────────────────────────────
+[1mProject:[22m vpc
+[1mModule path:[22m vpc
+
+ [4mName[24m           [4mMonthly Qty[24m  [4mUnit[24m  [4mMonthly Cost[24m   
+                                                  
+ [1mProject total[22m                            $0.00   
+
+[1m OVERALL TOTAL[22m                         $154.38 
 
 *Usage costs can be estimated by updating Infracost Cloud settings, see docs for other options.
 
 ──────────────────────────────────
-No cloud resources were detected
+44 cloud resources were detected:
+∙ 5 were estimated
+∙ 38 were free
+∙ 1 is not supported yet, rerun with --show-skipped to see details
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ Project                                                       ┃ Baseline cost ┃ Usage cost* ┃ Total cost ┃
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━┫
-┃ main                                                          ┃         $0.00 ┃           - ┃      $0.00 ┃
-┃ Felipe-carpanezi/observability-monster/terraform/live/dev/eks ┃         $0.00 ┃           - ┃      $0.00 ┃
-┃ Felipe-carpanezi/observability-monster/terraform/live/dev/rds ┃         $0.00 ┃           - ┃      $0.00 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━┛
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Project                                            ┃ Baseline cost ┃ Usage cost* ┃ Total cost ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━┫
+┃ eks                                                ┃          $139 ┃           - ┃       $139 ┃
+┃ rds                                                ┃           $15 ┃           - ┃        $15 ┃
+┃ vpc                                                ┃         $0.00 ┃           - ┃      $0.00 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━┛

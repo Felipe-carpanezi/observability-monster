@@ -1,10 +1,16 @@
 terraform {
-  source = "../../../modules/eks"
+  source = "../../../modules/eks" 
 }
 
-# O Terragrunt entende que o EKS precisa da VPC
 dependency "vpc" {
   config_path = "../vpc"
+
+  # ADICIONE ESTE BLOCO AQUI:
+  mock_outputs = {
+    vpc_id          = "vpc-fake-id"
+    private_subnets = ["subnet-fake-1", "subnet-fake-2"]
+  }
+  mock_outputs_allowed_terraform_commands = ["plan", "validate"]
 }
 
 inputs = {
