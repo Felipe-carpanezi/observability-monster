@@ -4,64 +4,58 @@ from diagrams.aws.compute import EKS
 from diagrams.aws.database import RDS
 from diagrams.k8s.compute import Pod
 from diagrams.k8s.network import Ingress
-from diagrams.onprem.monitoring import Zabbix, Grafana
+from diagrams.onprem.monitoring import Grafana
 from diagrams.custom import Custom
-import urllib.request
 import os
 
-# Função para garantir que os logos existam
-def download_icon(url, filename):
-    if not os.path.exists(filename):
-        opener = urllib.request.build_opener()
-        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        urllib.request.install_opener(opener)
-        urllib.request.urlretrieve(url, filename)
-
-# URLs dos logos oficiais
-logos = {
-    "n8n": "https://avatars.githubusercontent.com/u/45401411?s=200&v=4",
-    "otel": "https://avatars.githubusercontent.com/u/50654166?s=200&v=4"
-}
-
-# Download dos ícones
-for name, url in logos.items():
-    download_icon(url, f"{name}_logo.png")
-
+# Configurações visuais - O EQUILÍBRIO PERFEITO
 graph_attr = {
     "fontsize": "25",
     "bgcolor": "white",
-    "splines": "spline"
+    "splines": "spline", # VOLTAMOS COM AS SETAS CURVAS QUE VOCÊ GOSTOU
+    "nodesep": "0.4",
+    "ranksep": "0.8"
 }
 
-with Diagram("Observability IDP - The Monster (Full Stack)", show=False, filename="monster_architecture", graph_attr=graph_attr):
+with Diagram("Observability IDP - The Monster (Logical Flow)", show=False, filename="monster_architecture", direction="LR", graph_attr=graph_attr):
     
-    with Cluster("AWS Cloud (Region: us-east-1)"):
+    user_traffic = Ingress("Public Traffic\nGateway")
+
+    with Cluster("AWS Cloud Ecosystem"):
         db_shared = RDS("PostgreSQL Shared\n(Zabbix & n8n)")
         
-        with Cluster("VPC Network"):
-            with Cluster("Private Subnet (Compute)"):
-                eks = EKS("EKS Cluster")
-                
-                with Cluster("Namespace: monitoring"):
-                    # Agora usando Custom Nodes para OTel e Grafana (opcional)
-                    otel = Custom("OTel Collector\n(Standardizer)", "otel_logo.png")
-                    zbx = Zabbix("Zabbix Server")
-                    graf = Grafana("Grafana\n(Loki/Tempo/Mimir)")
-                
-                with Cluster("Namespace: automation"):
-                    automation = Custom("n8n Logic Engine", "n8n_logo.png")
+        with Cluster("Amazon EKS Cluster v1.30"):
+            
+            with Cluster("Governance & Security"):
+                argo = Custom("ArgoCD", "./argocd.png")
+                rancher = Custom("Rancher", "./rancher.png")
+                cert = Custom("Cert-Manager", "./Cert-Manager.png")
 
-                with Cluster("Namespace: apps (Business)"):
-                    app_pods = [Pod("Microservice A"),
-                                Pod("Microservice B")]
+            with Cluster("Observability Stack"):
+                otel = Custom("OTel Collector", "./otel_logo.png")
+                zbx = Custom("Zabbix Server", "./zabbix.png")
+                graf = Grafana("Grafana")
+                kuma = Custom("Uptime Kuma", "./kuma.png")
 
-            with Cluster("Public Subnet (Traffic)"):
-                ingress = Ingress("Nginx Ingress Gateway")
+            with Cluster("Automation"):
+                n8n = Custom("n8n AI Engine", "./n8n_logo.png")
 
-    # FLUXO DE DADOS
-    app_pods >> Edge(label="OTLP protocol", color="orange") >> otel
-    otel >> Edge(label="Traces/Logs", color="darkblue") >> graf
-    zbx >> Edge(label="Alerts", color="red") >> automation
-    automation >> Edge(label="Self-healing", color="darkgreen", style="dashed") >> eks
-    [zbx, automation] >> db_shared
-    ingress >> [graf, zbx, automation]
+            with Cluster("Apps"):
+                app_pods = [Pod("Microservice A"), Pod("Microservice B")]
+
+    # --- FLUXO DE INTELIGÊNCIA ---
+    # Entrada de Usuário
+    user_traffic >> Edge(color="blue", style="bold") >> [rancher, zbx, kuma, graf]
+    
+    # Ciclo de Dados das Apps
+    app_pods >> Edge(label="OTLP", color="orange") >> otel >> graf
+    
+    # Ciclo de Alerta e Auto-cura
+    zbx >> Edge(label="Alerts", color="red") >> n8n
+    n8n >> Edge(label="Sync", color="darkgreen", style="dashed") >> argo >> app_pods
+    
+    # Vigilância (Watchdog)
+    kuma >> Edge(color="purple", style="dotted") >> [zbx, rancher, argo]
+
+    # Persistência de Dados
+    [zbx, n8n] >> db_shared
