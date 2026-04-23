@@ -1,0 +1,32 @@
+{
+  "name": "EKS Self-Healing Workflow",
+  "nodes": [
+    {
+      "parameters": { "path": "zabbix-alert" },
+      "name": "Zabbix Webhook",
+      "type": "n8n-nodes-base.webhook"
+    },
+    {
+      "parameters": {
+        "url": "https://kubernetes.default.svc/apis/apps/v1/namespaces/my-app/deployments/web-app/scale",
+        "method": "PATCH",
+        "bodyParametersUi": {
+          "parameter": [ { "name": "spec.replicas", "value": 4 } ]
+        }
+      },
+      "name": "K8s API Scale",
+      "type": "n8n-nodes-base.httpRequest"
+    },
+    {
+      "parameters": {
+        "message": "=🚨 *Auto-cura Monster*\nO serviço {{ $node[\"Zabbix Webhook\"].json[\"service\"] }} foi escalado automaticamente."
+      },
+      "name": "WhatsApp Notification",
+      "type": "n8n-nodes-base.whatsApp"
+    }
+  ],
+  "connections": {
+    "Zabbix Webhook": { "main": [ [ { "node": "K8s API Scale", "index": 0 } ] ] },
+    "K8s API Scale": { "main": [ [ { "node": "WhatsApp Notification", "index": 0 } ] ] }
+  }
+}
