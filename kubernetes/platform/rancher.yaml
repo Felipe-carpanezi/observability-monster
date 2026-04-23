@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rancher
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: rancher
+    repoURL: https://releases.rancher.com/server-charts/stable
+    targetRevision: 2.9.2
+    helm:
+      kubeVersion: 1.28.0 # Truque de compatibilidade para EKS 1.30
+      values: |
+        hostname: rancher.SUBDOMINIO.sslip.io
+        bootstrapPassword: admin
+        replicas: 1
+        ingress:
+          ingressClassName: nginx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cattle-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
