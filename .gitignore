@@ -6,3 +6,4 @@ __pycache__/
 *.png
 *.log
 .DS_Store
+find . -name "*:Zone.Identifier" -type f -delete
