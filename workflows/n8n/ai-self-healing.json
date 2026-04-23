@@ -1,0 +1,40 @@
+{
+  "name": "AIOps Self-Healing with Groq",
+  "nodes": [
+    {
+      "parameters": { "path": "zabbix-ai-trigger" },
+      "name": "Zabbix Alerta",
+      "type": "n8n-nodes-base.webhook"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": { "temperature": 0.3 }
+      },
+      "name": "Groq AI Brain",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq"
+    },
+    {
+      "parameters": {
+        "text": "=Analise o erro do sistema: {{ $node[\"Zabbix Alerta\"].json[\"error_msg\"] }}. O que devo fazer?",
+        "options": {
+          "systemMessage": "Você é um assistente SRE. Analise erros e decida entre escalar o serviço ou avisar o desenvolvedor."
+        }
+      },
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent"
+    },
+    {
+      "parameters": {
+        "message": "=🤖 *IA SRE Monster*\nDecisão: {{ $node[\"AI Agent\"].json[\"output\"] }}\nStatus: Processando correção..."
+      },
+      "name": "WhatsApp Final",
+      "type": "n8n-nodes-base.whatsApp"
+    }
+  ],
+  "connections": {
+    "Zabbix Alerta": { "main": [ [ { "node": "AI Agent", "index": 0 } ] ] },
+    "Groq AI Brain": { "ai_language_model": [ [ { "node": "AI Agent", "index": 0 } ] ] },
+    "AI Agent": { "main": [ [ { "node": "WhatsApp Final", "index": 0 } ] ] }
+  }
+}
