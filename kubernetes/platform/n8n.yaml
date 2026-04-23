@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: n8n
+    repoURL: https://8gears.github.io/n8n-helm-chart
+    targetRevision: 0.20.0
+    helm:
+      values: |
+        config:
+          database:
+            type: postgresdb
+            postgresdb:
+              # Usaremos variáveis que o RDS nos dará no dia do apply
+              host: "monster-db.endpoint.aws.com" 
+              database: n8n
+              user: postgres
+              password: "MonsterPassword2026"
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: n8n.SUBDOMINIO.sslip.io
+              paths:
+                - path: /
