@@ -1,0 +1,46 @@
+[1mProject:[22m main
+
+[1mErrors:[22m
+  1 error occurred:
+	* error fetching file:// module file:///home/felipe/observability-monster/modules/vpc from remote:
+    stat /home/felipe/observability-monster/modules/vpc:
+      no such file or directory
+
+
+
+──────────────────────────────────
+[1mProject:[22m Felipe-carpanezi/observability-monster/terraform/live/dev/eks
+[1mModule path:[22m eks
+
+[1mErrors:[22m
+  Error processing module at '/home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl'. How this module was found:
+    dependency of module at '/home/felipe/observability-monster/terraform/live/dev/eks'. Underlying error:
+      Error reading file at path /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
+        open /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
+          no such file or directory
+
+──────────────────────────────────
+[1mProject:[22m Felipe-carpanezi/observability-monster/terraform/live/dev/rds
+[1mModule path:[22m rds
+
+[1mErrors:[22m
+  Error processing module at '/home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl'. How this module was found:
+    dependency of module at '/home/felipe/observability-monster/terraform/live/dev/rds'. Underlying error:
+      Error reading file at path /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
+        open /home/felipe/observability-monster/terraform/live/dev/vpc/terragrunt.hcl:
+          no such file or directory
+
+[1m OVERALL TOTAL[22m       $0.00 
+
+*Usage costs can be estimated by updating Infracost Cloud settings, see docs for other options.
+
+──────────────────────────────────
+No cloud resources were detected
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Project                                                       ┃ Baseline cost ┃ Usage cost* ┃ Total cost ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━┫
+┃ main                                                          ┃         $0.00 ┃           - ┃      $0.00 ┃
+┃ Felipe-carpanezi/observability-monster/terraform/live/dev/eks ┃         $0.00 ┃           - ┃      $0.00 ┃
+┃ Felipe-carpanezi/observability-monster/terraform/live/dev/rds ┃         $0.00 ┃           - ┃      $0.00 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━┛

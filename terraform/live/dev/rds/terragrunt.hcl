@@ -1,5 +1,6 @@
-terraform { source = "../../../modules/rds" }
-
+terraform {
+  source = "../../../modules/rds"
+}
 dependency "vpc" {
   config_path = "../vpc"
 }
