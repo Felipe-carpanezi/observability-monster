@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -16,7 +17,7 @@ spec:
             type: postgresdb
             postgresdb:
               # Usaremos variáveis que o RDS nos dará no dia do apply
-              host: "monster-db.endpoint.aws.com" 
+              host: "monster-db.endpoint.aws.com"
               database: n8n
               user: postgres
               password: "MonsterPassword2026"

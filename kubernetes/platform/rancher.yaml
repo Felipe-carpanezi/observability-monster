@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,7 +11,7 @@ spec:
     repoURL: https://releases.rancher.com/server-charts/stable
     targetRevision: 2.9.2
     helm:
-      kubeVersion: 1.28.0 # Truque de compatibilidade para EKS 1.30
+      kubeVersion: 1.28.0  # Truque de compatibilidade para EKS 1.30
       values: |
         hostname: rancher.SUBDOMINIO.sslip.io
         bootstrapPassword: admin
