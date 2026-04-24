@@ -5,7 +5,6 @@ terraform {
 dependency "vpc" {
   config_path = "../vpc"
 
-  # ADICIONE ESTE BLOCO AQUI:
   mock_outputs = {
     vpc_id          = "vpc-fake-id"
     private_subnets = ["subnet-fake-1", "subnet-fake-2"]
