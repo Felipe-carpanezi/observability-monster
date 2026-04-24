@@ -5,7 +5,6 @@ terraform {
 dependency "vpc" {
   config_path = "../vpc"
 
-  # ADICIONE ESTE BLOCO AQUI:
   mock_outputs = {
     vpc_id          = "vpc-fake-id"
     vpc_cidr_block  = "10.0.0.0/16"
