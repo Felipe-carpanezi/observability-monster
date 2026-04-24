@@ -23,3 +23,8 @@ spec:
 
   syncOptions:
     - CreateNamespace=true
+
+helm:
+      values: |
+        persistence:
+          enabled: false
